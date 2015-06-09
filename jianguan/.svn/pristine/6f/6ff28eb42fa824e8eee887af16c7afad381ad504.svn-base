@@ -1,0 +1,17 @@
+#版本号
+version_id=1
+#最新版本编号
+version_code=1.0
+#最小需强制更新版本编号
+min_version_code=1
+#更新内容说明
+update_note=\u66F4\u65B0\u8BF4\u660E\uFF1A\u4F18\u5316\u7528\u6237\u4F53\u9A8C
+android_url=http\://220.178.14.58\:9010/endo/ydnjapp.apk
+ios_url=https\://itunes.apple.com/cn/app/ai-zi-ke/id684073831?l\=en&mt\=8
+#数据库连接相关
+dbIP=115.29.221.3
+dbName=xumu
+dbType=mssql
+dbPort=1433
+user=wlw
+password=feiniao1707

@@ -1,0 +1,100 @@
+/**
+  * 描    述：重置,布局及基础样式
+  * 涉及区域：公共,全局
+  */
+
+html,body {
+	font: 12px/1.5 helvetica,tahoma,arial,sans-serif;
+	color: #323232;
+	background-color: #fff;
+}
+body,p,h1,h2,h3,h4,h5,h6,
+dl,dt,dd,ul,ol,li,
+form,input,textarea,button,
+pre,img {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+}
+ul,ul li {
+	list-style: none;
+}
+img {
+	border: 0;
+}
+a{
+	color: #444;
+	text-decoration: none;
+}
+a:hover{
+	color: #444;
+	text-decoration: underline;
+}
+input,textarea,select {
+	font-size: 100%;
+	outline: 0;
+	resize: none;
+	color: #323232;
+	font-family: "微软雅黑";
+}
+
+/* 布局 */
+.fl {
+	float:left;
+	display:inline;
+}
+.fr {
+	float:right;
+	display:inline;
+}
+.cf {
+	zoom:1;
+}
+.cf:after {
+	display:block;
+	visibility:hidden;
+	width:0;
+	height:0;
+	line-height:0;
+	font-size:0;
+	clear:both;
+	content:".";
+}
+.main {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+	min-height: 500px;
+	height: auto!important;
+}
+
+.sidebar {
+	float: right;
+	width: 270px;
+}
+.box {
+	margin-bottom: 10px;
+	border: 1px solid #D4D4D4;
+	background-color: #FFF;
+}
+
+/* 公用样式 */
+.hidden {
+	display: none!important;
+}
+.b0 {
+    border: 0!important;
+}
+.avatar {
+	display: block;
+	position: absolute;
+	top: 3px;
+	left: 0;
+	padding: 1px;
+	width: 44px;
+	height: 44px;
+	line-height: 44px;
+	text-align: center;
+	overflow: hidden;
+	border: 1px solid #D4D4D4;
+}

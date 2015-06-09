@@ -1,0 +1,653 @@
+#content  {
+	text-align: center;
+}
+#content a {
+	color: #003399; 
+	text-decoration: none
+}
+
+#content a:hover {
+	color: #FF0000; 
+	text-decoration: none
+}
+/* Header */
+div#header {
+	padding: 10px 0 10px 30px;
+	text-align: center;
+	margin: 0;
+	background: white url( images/Gathering.jpg ) top left repeat;
+}
+
+div#header h1 {
+	font-size: 26px;
+	color: #3e9ade;
+	margin: 0;
+}
+
+/* END Header */
+
+/* Content */
+#content h1 {
+	font-size: 37px;
+	color: #000000;
+	align:center;
+}
+
+/* FORMS */
+#content form.form {
+	padding: 10px;
+	margin: 20px;
+	border: 1px solid #ccc;
+}
+
+#content form input.text {
+	border: 1px solid #ddd;
+	padding: 4px;
+	margin: 5px 0 10px 0;
+}
+
+#content form textarea {
+	border: 1px solid #ddd;
+	padding: 4px;
+	margin: 5px 0 10px 0;
+}
+
+#content input.button, button.button {
+	width: 5em;
+	padding: 4px 4px 0 0;
+}
+
+#content  button.viewbutton {
+	width: 20px;
+	padding: 2px 2px 0 0;
+	margin: 4px 0 7px 4px;
+}
+
+#content form label {
+	margin: 4px 20px 3px 0;
+	border: 0;
+	color: #444;
+	display: block;
+	font-weight: bold;
+}
+
+.req {
+	color: #f90;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+#content #viewTable {
+	border-collapse: collapse;
+}
+
+#content #viewTable td {
+	border: 1px solid #ccc;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+/* END Content */
+
+/* Menu */
+#menu ul {
+	list-style: none;
+	width: 150px;
+	margin: 0 0 20px 0;
+	padding: 0;
+	font-size: 14px;
+}
+
+#menu li {
+	margin-bottom: 4px;
+}
+
+#menu li a {
+	font-weight: bold;
+	height: 20px;
+	text-decoration: none;
+	color: #505050;
+	display: block;
+	padding: 6px 0 3px 10px;
+	background: #f4f4f4;
+	border-left: 4px solid #cccccc;
+}
+
+#menu li a:hover {
+	background: #eaeaea;
+	color: #286ea0;
+	border-left: 4px solid #286ea0;
+}
+
+/* End Menu */
+
+/* Messages */
+div.error, div.message {
+	border: 1px solid black;
+	padding: 4px;
+}
+
+div.error {
+/* use a different color for the errors */
+	border: 2px solid red;
+}
+
+span.fieldError {
+	color: maroon !important;
+}
+
+/* END Messages */
+.tdLabel {
+	font-family: "Arial", "Helvetica", "sans-serif";
+	font-size: 12px;
+}
+.tdLabel1 {
+	font-family: "Arial", "Helvetica", "sans-serif";
+	font-size: 12px;
+	text-align: center;
+}
+.main{
+	clear:both;
+	padding:2px;
+	text-align:center;
+}
+* {
+  margin: 0; padding:0
+}
+
+#tabs0 {
+  text-align: left;
+  width:100%;
+  height:90%;
+  background-color: #EAF0FD;
+  padding: 0px;
+}
+#tabs0 #menu0 {
+  height: 20px;
+}
+#menu0 li {
+  float: left;
+  list-style-type: none;
+  padding: 0px 0;
+  width:18%;
+  line-height: 28px;
+  text-align: center;
+  margin-right: 1px;
+  cursor:pointer;
+ background: url(images/tab_selected_left_bk2.gif) no-repeat left -29px;
+} 
+#menu0 li span{
+  display: block;
+  background: url(images/tab_selected_right_bk2.gif) no-repeat right -29px;
+  padding: 0 15px 0 15px;
+}
+#menu0 ul {
+  background-color: #FFFFFF;
+  height: 28px;
+}
+#menu0 li.hover {
+   display:inline-block;
+    display:-moz-inline-stack;
+    vertical-align:bottom; /* safari: for overlap */
+    cursor:pointer; /* gecko: due to -moz-inline-stack on anchor */
+    font-weight:bold;
+  background: url(images/tab_selected_left_bk2.gif) no-repeat left -87px;
+}
+#menu0 .hover span{
+  display: block;
+  background: url(images/tab_selected_right_bk2.gif) no-repeat right -87px;
+  padding: 0 15px 0 15px;
+}
+#tabs0 div {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: #83bbd9;
+  border-right-color: #83bbd9;
+  border-bottom-color: #83bbd9;
+  border-left-color: #83bbd9;
+  width:99%;
+  height:96%;
+}
+#tabs0 .div {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: #83bbd9;
+  border-right-color: #83bbd9;
+  border-bottom-color: #83bbd9;
+  border-left-color: #83bbd9;
+  width:99%;
+  height:97%;
+}
+/*表单样式*/
+.input {
+	font-family: "宋体";
+	font-size: 13px;
+	background-color:#fff;
+	border: 1px solid #999999;
+	width:100%;
+	text-valign:middle;
+}
+.input1 {
+	font-family: "宋体";
+	font-size: 13px;
+	color: #000000;
+	width:80%;
+	background-color:#fff;
+	border: 1px solid #999999;
+	text-valign:middle;
+}
+.input2{
+	font-family: "宋体";
+	font-size: 13px;
+	background-color:#fff;
+	border: 1px solid #999999;
+	text-valign:middle;
+}
+.input3{
+	font-family: "宋体";
+	font-size: 13px;
+	background-color:#fff;
+	border: 1px solid #999999;
+	width:100%;
+	TEXT-ALIGN:right;
+}
+.input4{
+	font-family: "宋体";
+	font-size: 13px;
+	background-color:#fff;
+	border: 1px solid #999999;
+	width:100%;
+	TEXT-ALIGN:center;
+}
+.input5{
+	font-family: "宋体";
+	font-size: 13px;
+	color: #000000;
+	width:80%;
+	background-color:#fff;
+	border: 1px solid #999999;
+	TEXT-ALIGN:center;
+}
+.input6 {
+	font-family: "宋体";
+	font-size: 13px;
+	background-color:#fff;
+	border: 1px solid #999999;
+	width:94%;
+	text-valign:middle;
+}
+#tab {
+	border: 0px solid #83BBD9;
+	background-color:#b5d1e7;
+}
+#tab1 {
+	border: 0px solid #83BBD9;
+	background-color:#b5d1e7;
+}
+.td1{
+	background-color: #d5e3ff;
+	text-align: right;
+}
+.td2{
+	background-color: #d5e3ff;
+	text-align: center;
+}
+.td3{
+	background-color: #ffffff;
+	text-align: left;
+}
+.td4{
+	background-color: #d5e3ff;
+	text-align: left;
+}
+#tab tr{
+	background-color: #EAF0FD;
+	height:28px;
+}
+#tab1 tr{
+	background-color: #ffffff;
+	height:28px;
+}
+.tr1{
+	background-color: #d5e3ff;
+	height:28px;
+}
+.inputonfocus{
+	background-color: #e0f4ff;
+}
+.inputonblur{
+	background-color: #fff;
+}
+fieldset
+{
+   padding: 3px;
+    border-color: #83bbd9;
+    width:98%;
+}
+fieldset legend{
+	font-family: "宋体";
+	font-size: 13px;
+	color:#FF0000;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color:#EAF0FD;
+	margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    height: auto;
+    width: auto;
+    font-size: 12px;
+}
+td {
+	font-family: "Arial", "Helvetica", "sans-serif";
+	font-size: 12px;
+}
+.css-rad-bg {
+	background-image: url(images/bg1.jpg);
+	height: 643px;
+	width: 963px;
+	margin:auto;
+}
+.css-rad-top {
+	background-image: url(images/rad-1-2.jpg);
+	height: 96px;
+	width: 100%;
+}
+.css-rad-r-bg {
+	background-image: url(images/rad-4-2.jpg);
+}
+.css-rad-r-lin {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #656668;
+}
+.css-rad-h-dh {
+	background-image:url(images/rad-dh-2.jpg);
+	background-repeat:   no-repeat;
+	background-attachment:   fixed;
+	height: 33px;
+	width: 404px;
+}
+.css-rad-h-dhx {
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #1f54bc;
+	border-bottom-color: #1f54bc;
+	border-left-color: #1f54bc;
+	background-color: #FFFFFF;
+}
+
+.css-rad-r-botton1 {
+	background-image: url(images/rad-botton1.jpg);
+	height: 32px;
+	width: 163px;
+}
+.css-rad-h-kj {
+	width: 4px;
+}
+.css-rad-down {
+
+	background-image: url(images/rad-3-2.jpg);
+	background-color:#dfdfff;
+	height: 27px;
+	width: 1024px;
+}
+
+/*下面是菜单样式*/
+.css-rad-menubody {
+	/*菜单页面背景*/
+	background-color:#dfdfff;
+	maigin: 0;
+	margin-left: 0px;
+}
+div.sdmenu {
+	width: 130px;
+	font-family: "宋体";
+	font-weight: bold;
+	font-size: 12px;
+	padding-bottom: 10px;
+	background: url(images/bottom.gif) no-repeat  right bottom;
+	color: #004a7e;
+	filter: DropShadow(Color=#FFFFFF, OffX=1, OffY=1, Positive=1,1);
+}
+
+div.sdmenu table {
+	border-collapse:collapse;
+	border-spacing:0;
+	
+	
+}
+
+div.sdmenu tr,td {
+	padding: 0;
+}
+
+
+
+div.sdmenu div {
+	background: url(images/blue-botton1.jpg) no-repeat;
+	overflow: hidden;
+}
+div.sdmenu div:first-child {
+	background: url(images/blue-botton1.jpg) no-repeat;
+}
+div.sdmenu div.collapsed {
+	height: 25px;
+}
+div.sdmenu div span {
+	display: block;
+	padding: 5px 25px;
+	font-weight: bold;
+	color: #white;
+	background: url(images/class_exp_blue.gif) no-repeat 10px center;
+	cursor: pointer;
+	border-bottom: 1px solid #ddd;
+}
+div.sdmenu div.collapsed span {
+	background-image: url(images/class_col_blue.gif);
+}
+.p {
+	padding: 5px 10px;
+	background: #eaf8ee;/*菜单子项背景色*/
+	display: block;
+	border-bottom: 1px solid #ddd;
+	color: #066;
+	width: 110px;
+	
+}
+.mouseout {
+	background: #99ccff;/*菜单子项背景色*/
+	display: block;
+	border-bottom: 1px solid #ddd;
+	color: #066;
+
+}
+.mousein {
+	cursor:pointer;
+	color: #fff;
+}
+
+.bluess{
+	padding: 5px 10px;
+	background: #bfdfff;/*菜单背景，鼠标悬停时颜色*/
+	display: block;
+	border-bottom: 1px solid #ddd;
+	color: #066;
+	width: 110px;
+	
+}
+.pclick{
+	padding: 5px 10px;
+	background: #bfdfff;
+	display: block;
+	border-bottom: 1px solid #ddd;
+	color: #066;
+	width: 110px;
+
+}
+
+#dragForm {
+	background-color: #84adf6;/*拖动窗口背景*/
+	padding-bottom: 1px;
+}
+
+#dragTitle{
+	font-family: "宋体";			 /*拖动窗口标题字体样式，要写全。。。*/
+	font-size: 12px;
+	font-weight: bold;
+	text-indent: 10px;
+	line-height: 23px;
+	text-align: left;
+	
+}
+
+#dragCont{
+	background-color: #daedff;
+	border: 1px solid #03358f;
+	line-height: 150%;
+	margin: 3px;
+}
+.closeDragOn{
+	background-image: url(images/on.gif);
+	width: 34px;
+	height: 19px;
+	cursor: pointer;
+	text-align: right;
+
+}
+
+.closeDragOff{
+	background-image: url(images/off.gif);
+	width: 34px;
+	height: 19px;
+	cursor: pointer;
+	margin: 0px 0px 0px auto;
+
+}
+/*按钮样式*/
+span.Add
+{
+    padding-left:20px;
+	background: url(images/icons/add.png) no-repeat 1px;
+}
+span.Delete
+{
+    padding-left:20px;
+	background: url(images/icons/delete.png) no-repeat 1px;
+}
+span.Edit
+{
+    padding-left:20px;
+	background: url(images/icons/Item.Edit.gif) no-repeat 1px;
+}
+span.Refresh
+{
+		padding-left:20px;
+		background: url(images/icons/Item.Refresh.gif) no-repeat 1px;
+}
+span.SetUp
+{
+		padding-left:20px;
+		background: url(images/icons/Item.SetUp.gif) no-repeat 1px;
+}
+span.Goin
+{
+		padding-left:20px;
+		background: url(images/icons/Item.Goin.gif) no-repeat 1px;	
+}
+span.View
+{
+    padding-left:20px;
+	background: url(images/icons/Item.Search.gif) no-repeat 1px;
+}
+
+span.goBack
+{
+    padding-left:20px;
+	background: url(images/icons/Item.Back.gif) no-repeat 1px;
+}
+span.setMax
+{
+		padding-left:20px;
+		background: url(images/icons/Item.setMax.gif) no-repeat 1px;
+}
+span.Export
+{
+		padding-left:20px;
+		background: url(images/icons/excel.gif) no-repeat 1px;
+}
+span.Upload
+{
+		padding-left:20px;
+		background: url(images/icons/Item.Upload.gif) no-repeat 1px;
+}
+span.EditList
+{
+		padding-left:20px;
+		background: url(images/icons/Item.EditList.gif) no-repeat 1px;
+}
+span.Invalid
+{
+		padding-left:20px;
+		background: url(images/icons/Item.Invalid.gif) no-repeat 1px;
+}
+span.Download
+{
+		padding-left:20px;
+		background: url(images/icons/Item.Download.gif) no-repeat 1px;
+}
+span.Subject
+{
+		padding-left:20px;
+		background: url(images/icons/tabs.gif) no-repeat 1px;
+}
+span.school
+{
+		padding-left:20px;
+		background: url(images/icons/Item.setMax.gif) no-repeat 1px;
+}
+span.close
+{
+		padding-left:20px;
+		background: url(images/icons/Btn.Close.gif) no-repeat 1px;
+}
+span.open
+{
+		padding-left:20px;
+		background: url(images/icons/add.png) no-repeat 1px;
+}
+span.sendsms
+{
+		padding-left:20px;
+		background: url(images/icons/Item.sendSMS.png) no-repeat 1px;
+}
+span.paifa
+{
+		padding-left:20px;
+		background: url(images/icons/paifa.ico) no-repeat 1px;
+}
+span.seluser
+{
+		padding-left:20px;
+		background: url(images/icons/seluser.ico) no-repeat 1px;
+}

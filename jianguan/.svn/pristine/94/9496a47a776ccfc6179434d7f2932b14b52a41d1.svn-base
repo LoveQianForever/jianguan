@@ -1,0 +1,214 @@
+package com.ncs.gsyt.modules.model;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+//产品表
+@Entity
+@Table(name = "T_INPOULTY")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+/**
+ * 禽类生产记录档案
+ * 
+ * 引种记录  对应的表 的实体类
+ * **/
+public class InputPoulty implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long inPoultyID;//引种记录ID
+		
+	@Column(length=50)
+	private Date input_time;//引种记录时间
+	
+	@Column(length=50)	
+	private String year1;
+	
+	@Column(length=50)	
+	private String month1;
+	
+	@Column(length=50)	
+	private String day1;
+	
+	@ManyToOne
+	@JoinColumn(name = "poultryID", referencedColumnName = "poultryID")
+	private PoultryKinds poultryKinds;//对应家禽品种   对象
+	
+	private int count;//引种 数量
+	@Column
+	private String proFactory;//生产场
+	
+	@Column
+	private String proplace;//地址
+	
+	@Column
+	private String phoneNumber;//联系电话
+	
+	@Column
+	private String  kindCode;//品种证号
+	
+	@Column
+	private String  checkCode;//检疫证号
+	
+	@Column
+	private String  enterpriseName;//所属企业名称
+	
+	private long enterpriseID;//企业ID
+	
+	@Transient
+	private long idss;
+	
+	@Column(length=50)
+	private String piCi;//批次，用于保存溯源里的“批次”概念
+	
+	
+	public String getPiCi() {
+		return piCi;
+	}
+
+	public void setPiCi(String piCi) {
+		this.piCi = piCi;
+	}
+	
+	public long getIdss() {
+		return idss;
+	}
+
+	public void setIdss(long idss) {
+		this.idss = idss;
+	}
+
+	public String getEnterpriseName() {
+		return enterpriseName;
+	}
+
+	public void setEnterpriseName(String enterpriseName) {
+		this.enterpriseName = enterpriseName;
+	}
+
+	public long getEnterpriseID() {
+		return enterpriseID;
+	}
+
+	public void setEnterpriseID(long enterpriseID) {
+		this.enterpriseID = enterpriseID;
+	}
+
+	public long getInPoultyID() {
+		return inPoultyID;
+	}
+
+	public void setInPoultyID(long inPoultyID) {
+		this.inPoultyID = inPoultyID;
+	}
+
+	public Date getInput_time() {
+		return input_time;
+	}
+
+	public void setInput_time(Date inputTime) {
+		input_time = inputTime;
+	}
+
+	public PoultryKinds getPoultryKinds() {
+		return poultryKinds;
+	}
+
+	public void setPoultryKinds(PoultryKinds poultryKinds) {
+		this.poultryKinds = poultryKinds;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public String getProFactory() {
+		return proFactory;
+	}
+
+	public void setProFactory(String proFactory) {
+		this.proFactory = proFactory;
+	}
+
+	public String getProplace() {
+		return proplace;
+	}
+
+	public void setProplace(String proplace) {
+		this.proplace = proplace;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getKindCode() {
+		return kindCode;
+	}
+
+	public void setKindCode(String kindCode) {
+		this.kindCode = kindCode;
+	}
+
+	public String getCheckCode() {
+		return checkCode;
+	}
+
+	public void setCheckCode(String checkCode) {
+		this.checkCode = checkCode;
+	}
+
+	public String getYear1() {
+		return year1;
+	}
+
+	public void setYear1(String year1) {
+		this.year1 = year1;
+	}
+
+	public String getMonth1() {
+		return month1;
+	}
+
+	public void setMonth1(String month1) {
+		this.month1 = month1;
+	}
+
+	public String getDay1() {
+		return day1;
+	}
+
+	public void setDay1(String day1) {
+		this.day1 = day1;
+	}
+
+	
+	
+}

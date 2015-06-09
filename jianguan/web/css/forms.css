@@ -1,0 +1,93 @@
+﻿/*****************************************
+	Project：wq
+	Email：tellwangqing@gmail.com
+	Last change：2010-3-19
+	Primary use：表格|表单
+*****************************************/
+
+/* 表格 */
+table.tab4{background:#fff;border:1px solid #c5d4e3;width:100%;}
+table.tab4 th{height:24px;line-height:24px;background:url(../image/buttons.gif) repeat-x left -209px;border-left:1px solid #c5d4e3;border-bottom:1px solid #e3ecf6;}
+table.tab4 th.number{background:url(../image/buttons.gif) no-repeat left -235px;border:0;}
+table.tab4 td{height:25px;line-height:25px;text-align:center;}
+table.tab4 th.noBorder{border:0;}
+
+table.tab2{border-top:#c5d4e3 solid 1px;border-left:#c5d4e3 solid 1px; }
+table.tab2 thead tr th{border-top:#fff solid 1px;border-left:#fff solid 1px;line-height:20px;font-weight:normal;padding:2px;font-size: 12px; border-bottom: 1px solid #d0d0d0;border-right:1px solid #c5d4e3; }
+table.tab2 thead tr td{text-align:center;border:1px solid #c5d4e3;line-height:24px;font-weight:normal;padding:3px 5px; }
+table.tab2 tbody tr th{white-space:nowrap;text-align:right;font-weight:normal;background:#f0f5fb;border-top:#FFF solid 1px;border-left: #FFF solid 1px;border-bottom: 1px solid #c5d4e3;border-right:1px solid #c5d4e3;padding:2px; }
+table.tab2 tbody tr td{text-align:left;border-top:#FFF solid 1px;border-left:#FFF solid 1px;border-right:#c5d4e3 solid 1px;border-bottom:#c5d4e3 solid 1px;padding:3px 5px;line-height:24px;background:#fff;}
+table.tab2 tbody tr td span{zoom:1;}
+
+table.tab3 th{height:23px;line-height:23px;background:url(../image/buttons.gif) repeat-x left -209px;}
+table.tab3 td{height:25px;line-height:25px;text-align:center;background:#fff;}
+table.tab3 tr.Total td{background:#f6f8fc;}
+
+/* 表单 */
+input.inputText,.selectText{border-right:#aabbcc 1px solid;border-top:#778899 1px solid;border-left:#89a 1px solid;border-bottom:#aabbcc 1px solid;color:#369;background:#f7fafc;padding:2px 2px 1px 2px;}
+input.inputText:hover,.selectText:hover{border-right:#0cf 1px solid;border-top:#0cf 1px solid;border-left:#0cf 1px solid;border-bottom:#0cf 1px solid;}
+.inputProcess{border:1px solid #00ccff;background:#f7fafc;padding:2px 2px 1px 2px;}
+.inputClick{border:1px solid #f80;background:#f7fafc;padding:2px 2px 1px 2px;}
+.selectText{vertical-align:middle;font-size:12px;}
+
+/* 角色目录树 */
+ul.tree, ul.tree * {margin:0;padding:0 0 5px 0;}
+ul.tree img.arrow {padding:0;border:0;width:20px;}
+ul.tree li {line-height:18px;}
+ul.tree li ul {padding:0 0 0 20px;margin:0;}
+ul.tree label {cursor:pointer;}
+ul.tree label.hover{color:#049;}
+ul.tree li .arrow{width:20px;height:18px;padding:0;margin:0;cursor:pointer;float:left;}
+ul.tree li .collapsed{background:url(../image/dtree/plus.gif) no-repeat center center;}
+ul.tree li .expanded{background:url(../image/dtree/minus.gif) no-repeat center center;}
+ul.tree li .checkbox{width:20px;height:18px;padding:0;margin:0;cursor:pointer;float:left;background:url(../image/dtree/check0.gif) no-repeat left center;}
+ul.tree li .checked{background:url(../image/dtree/check2.gif) no-repeat left center;}
+ul.tree li .half_checked{background:url(../image/dtree/check1.gif) no-repeat left center;}
+
+.roleTree{padding:7px 0;}
+.roleTree p.roleTreeTitle{background:url(../icon/icon03.gif) no-repeat left center;height:30px;line-height:30px;text-indent:30px;color:#049;margin-bottom:12px;}
+.roleTree p.roleTreeAll{background:url(../image/dtree/joinbottom.gif) no-repeat 6px center;height:20px;line-height:20px;text-indent:25px;}
+.roleTree p.roleTreeAll label{cursor:pointer;}
+
+
+/* 表单验证 */
+.onShow
+{
+    background:url(../image/formValidator/onShow.gif) no-repeat left center; 
+    padding:2px 0 2px 23px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onFocus
+{
+    background:#E9F0FF url(../image/formValidator/onFocus.gif) no-repeat left center; 
+    padding:2px 0 2px 23px; 
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onError
+{
+    background:#FFF2E9 url(../image/formValidator/onError.gif) no-repeat left center;
+    padding:2px 0 2px 23px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onCorrect
+{
+    background:#E9FFEB url(../image/formValidator/onCorrect.gif) no-repeat left center;
+    padding:2px 0 2px 23px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+}
+.onLoad
+{
+    background:#E9FFEB url(../image/formValidator/onLoad.gif) no-repeat left center;
+    padding-left:25px;
+	font-size: 12px;
+	line-height:22px; 
+	vertical-align:middle;
+} 

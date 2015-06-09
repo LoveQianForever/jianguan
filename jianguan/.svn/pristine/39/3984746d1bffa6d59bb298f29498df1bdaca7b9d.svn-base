@@ -1,0 +1,98 @@
+.header {
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	margin-bottom: 20px;
+	width: 100%;
+	background-color: #fff;
+}
+.header .miniNav {
+    height:31px;
+    background: #F8F8F8;
+    color: #A1A0A0;
+    text-align: center;
+    line-height: 18px;
+	border-bottom:1px solid #D8D8D8;
+}
+.header .topnav{width:960px;margin: 0px auto;text-align: left; font-size:12px;font-family: 宋体; line-height:32px;}
+.header .hd-main {
+	margin: 0 auto;
+	width: 960px;
+}
+.sme_logo{ float:left;}
+.header .logo {
+	float: left;
+	margin-top: 10px;
+}
+.header .logo a {
+	display: block;
+	width:380px;
+	height: 60px;
+	background: url(../images/header_logo.jpg) no-repeat left center;
+}
+.header .logo a:hover {
+	text-decoration: none;
+}
+.homelogo{ background:#39B8C0; width:38px; height:20px; border:1px solid #4BC5CB; color:#FFF; font-size:12px; font-family:宋体;}
+/* 主导航 */
+.header .px_logo,.header .main-nav,
+.header .main-nav li {float: left;}
+.main-nav li {}
+.header .px_logo{ float:left; width:500px; height:75px;}
+.header .menu{float:left; width:960px;background: url(../images/navbg.png) #31ACB3;}
+.header .main-nav .home{ margin-left:15px;}
+.header .main-nav a {
+	display: inline-block;
+	padding: 0 16px;
+	height:38px;
+	line-height:38px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #FFF;
+	vertical-align: middle;
+}
+.header .main-nav a:hover {
+	color: #FFF;
+	text-decoration: none;
+	background-color: #258185;
+}
+.header .current a,
+.header .current a:hover {
+	text-decoration: none;
+	background-color: #656565;
+}
+.header .header-bar {
+	float: right;
+	margin-top:20px;
+}
+
+/* 搜索 */
+.header .search {
+	float: left;
+	font-size: 14px;
+	border:0px solid #CCC;
+}
+.header .search-input {
+	float: left;
+	padding: 0 3px;
+	width:220px;
+	height:32px;
+	line-height:32px;
+	border:2px solid #39B9C1;
+}
+.header .search-btn {
+	float: left;
+	width:60px;
+	height:36px;
+	line-height:36px;
+	cursor: pointer;
+	text-align: center;
+	border-left: 0 solid #CCC;
+	background-color: #39B9C1;
+	color:#fff;
+}
+.header .search-btn:hover {
+	text-decoration: none;
+	color: #fff;
+}
+

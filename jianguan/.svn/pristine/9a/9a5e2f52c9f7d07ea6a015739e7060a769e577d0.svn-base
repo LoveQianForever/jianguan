@@ -1,0 +1,122 @@
+ <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%@ include file="/common/taglibs.jsp"%>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>进货单据</title>
+    <script src="${ctx}/js/jquery-1.6.2.min.js" language="javascript" type="text/javascript"></script>
+    <script src="${ctx}/common/validator/formValidator-4.0.1.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="${ctx}/common/validator/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+    
+    <script  type="text/javascript" src="${ctx}/common/My97DatePicker/WdatePicker.js"></script>
+    <link href="${ctx}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="${ctx}/css/layout.css" rel="stylesheet" type="text/css" />
+	<link href="${ctx}/css/forms.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  	<div>
+ <div class="option">
+	<ul class="clearfix">
+	<li id="one1" class="hover"><span><img src="${ctx}/image/icon/icon01.gif" />进货记录</span></li>
+	</ul>
+</div>
+<div style="display: block; padding: 10px;" id="con_one_2">
+<div class="boxBack">
+    <form method="post" id="form1" action="${ctx}/admin/seedin!saveModifySeed.do" >
+    <table cellspacing="0" cellpadding="0" border="0" width="100%" class="tab2">
+    <tbody>
+       <colgroup>
+    		<col width="20%"/>
+    		<col width="80%"/>
+    	</colgroup>
+        <tr>
+            <th>供货公司：</th>
+            <td>
+            <input type="text" name="buy_company" id="buy_company" onfocus="this.className='inputClick'" value="${seedin.buy_company}"  class="input" class="inputText" style="width:520px;" />
+            <input type="hidden" name="seedin_id" id="seedin_id" value="${seedin.seedin_id}"/>
+        </tr>
+        <tr>
+            <th>商品名称：</th>
+            <td>
+           <select id="seed_name" name="seed_name" class="input"  onfocus="this.className='inputClick'" class="inputText" style="width:520px;">
+		        			 <option value="${seedin.seed.seed_id}">${seedin.seed.seed_name}</option>
+            			 <s:iterator value="seedlist" var="seed" >
+             				<option value="<s:property value="seed_id"/>"><s:property value="seed_name"/></option>
+            			</s:iterator>
+            			
+             		</select>
+             		</td>
+        </tr>
+        <tr>
+            <th>数量：</th>
+            <td>
+            <input type="text" name="s_count" id="s_count" onfocus="this.className='inputClick'"  value="${seedin.s_count}"  class="input" class="inputText" style="width:520px;" />
+            
+        </tr>
+        <tr>
+            <th>进货时间：</th>
+            <td>
+            <input type="text" name="input_time" id="iinput_time"  value="${seedin.input_time}" class="input Wdate" style="width: 520px" 
+            	onFocus="WdatePicker({input_time:'%y-%M-01',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})"/>
+            <span id="input_time"></span>
+            </td>
+            
+        </tr>
+        <tr>
+            <th>合同编号：</th>
+            <td>
+            <input type="text" name="contract_id" id="contract_id" onfocus="this.className='inputClick'"  value="${seedin.contract_id}" class="input" class="inputText" style="width:520px;" />
+      
+        </tr>
+        
+        
+        <tr>
+            <th>贮藏仓号：</th>
+            <td>
+            <input type="text" name="store_id" id="store_id" onfocus="this.className='inputClick'"  value="${seedin.store_id}"  class="input" class="inputText" style="width:520px;" />
+           
+        </tr>
+        <tr>
+            <th>含水分：</th>
+            <td>
+            <input type="text" name="water" id="water" onfocus="this.className='inputClick'"  value="${seedin.water}"  class="input" class="inputText" style="width:520px;" />
+           
+        </tr>
+        <tr>
+            <th>含净度：</th>
+            <td>
+            <input type="text" name="neatness" id="neatness" onfocus="this.className='inputClick'" value="${seedin.neatness}"  class="input" class="inputText" style="width:520px;" />
+           
+        </tr>
+        <tr>
+            <th>发芽率：</th>
+            <td>
+            <input type="text" name="sprout" id="sprout" onfocus="this.className='inputClick'"  value="${seedin.sprout}" class="input" class="inputText" style="width:520px;" />
+           
+        </tr>
+        <tr>
+            <th>含纯度：</th>
+            <td>
+            <input type="text" name="pure" id="pure" onfocus="this.className='inputClick'" value="${seedin.pure}"  class="input" class="inputText" style="width:520px;" />
+           
+        </tr>
+        <tr>
+            <th>检疫证号：</th>
+            <td>
+            <input type="text" name="checkCode" id="checkCode" onfocus="this.className='inputClick'" value="${seedin.checkCode}" class="input" class="inputText" style="width:520px;" />
+         
+        </tr>
+        
+    </tbody>
+</table>
+<div class="inputSubmit">
+	<input type="submit" class="buttonStyle" id="doSave" value="提交"/>&nbsp;&nbsp;
+	<input type="reset" class="buttonStyle"  value="返回"  onclick="javascript:window.history.back()">
+</div>
+</form>
+</div>
+</div>
+</div>
+ 
+  </body>
+</html>

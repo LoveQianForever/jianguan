@@ -1,0 +1,872 @@
+﻿package com.ncs.gsyt.modules.action;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.Result;
+import org.springframework.stereotype.Controller;
+
+
+import com.json.util.JSONObject;
+import com.ncs.gsyt.constant.Constant;
+import com.ncs.gsyt.core.base.action.BaseAction;
+import com.ncs.gsyt.core.base.search.Search;
+import com.ncs.gsyt.modules.model.Enterprise;
+import com.ncs.gsyt.modules.model.Enterpriseatta;
+import com.ncs.gsyt.modules.model.InTouRuPinRecord;
+import com.ncs.gsyt.modules.model.OutTouRuPinRecord;
+import com.ncs.gsyt.modules.model.Seed;
+import com.ncs.gsyt.modules.model.SeedIn;
+import com.ncs.gsyt.modules.model.SeedOut;
+import com.ncs.gsyt.modules.model.TouRuPin;
+import com.ncs.gsyt.modules.model.User;
+import com.ncs.gsyt.modules.service.EnterpriseService;
+import com.ncs.gsyt.modules.service.EnterpriseattaService;
+import com.ncs.gsyt.modules.service.InTouRuPinRecordService;
+import com.ncs.gsyt.modules.service.OutTouRuPinRecordService;
+import com.ncs.gsyt.modules.service.SeedInService;
+import com.ncs.gsyt.modules.service.SeedOutService;
+import com.ncs.gsyt.modules.service.SeedService;
+import com.ncs.gsyt.modules.service.TouRuPinService;
+import com.ncs.gsyt.modules.service.UserService;
+import com.ncs.gsyt.modules.util.ImageUtil;
+import com.ncs.gsyt.modules.util.UUIDGenerator;
+import com.opensymphony.xwork2.ModelDriven;
+
+
+/**
+ *  种子监管
+ * 
+ * 这个类，主要为了实现种子的监管，
+ *
+ * 
+ * **/
+@Namespace("/admin")
+@Controller
+public class SeedMEnterpriseAction extends BaseAction implements ModelDriven<Enterprise>{
+
+	private static final long serialVersionUID = 1L;
+	
+	@Resource
+	private EnterpriseService enterpriseService;
+	
+	@Resource
+	private EnterpriseattaService enterpriseattaService;
+	
+	@Resource
+	private SeedInService seedinService;//进货
+	
+	@Resource
+	private SeedOutService seedoutService;//出货
+	
+	private SeedIn seedin=new SeedIn();//进货
+	private List<SeedIn> seedinList=new ArrayList<SeedIn>();
+	private List<SeedOut> seedoutList=new ArrayList<SeedOut>();
+	
+	
+	public List<SeedIn> getSeedinList() {
+		return seedinList;
+	}
+
+	public void setSeedinList(List<SeedIn> seedinList) {
+		this.seedinList = seedinList;
+	}
+
+	public List<SeedOut> getSeedoutList() {
+		return seedoutList;
+	}
+
+	public void setSeedoutList(List<SeedOut> seedoutList) {
+		this.seedoutList = seedoutList;
+	}
+
+	public SeedIn getSeedin() {
+		return seedin;
+	}
+
+	public void setSeedin(SeedIn seedin) {
+		this.seedin = seedin;
+	}
+
+	public SeedOut getSeedout() {
+		return seedout;
+	}
+
+	public void setSeedout(SeedOut seedout) {
+		this.seedout = seedout;
+	}
+	private SeedOut seedout=new SeedOut();//出货
+	@Resource
+	private UserService userService;
+	
+	private User user=new User();
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	private Enterprise enterprise = new Enterprise();
+	
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+	
+	@Override
+	public Enterprise getModel() {
+		return enterprise;
+	}
+	// 附件处理
+	private File uploadify;
+	private String uploadifyFileName;
+
+	public File getUploadify() {
+		return uploadify;
+	}
+
+	public void setUploadify(File uploadify) {
+		this.uploadify = uploadify;
+	}
+	
+	public String getUploadifyFileName() {
+		return uploadifyFileName;
+	}
+
+	public void setUploadifyFileName(String uploadifyFileName) {
+		this.uploadifyFileName = uploadifyFileName;
+	}
+
+	@Action(value = "/seedMenterprise", results = {
+			@Result(name = SUCCESS, location = "/admin/seedproduct/seedManagerlist1.jsp"),
+			@Result(name = "form", location = "/admin/enterprise/enterpriseedit.jsp"),
+			@Result(name = "form1", location = "/admin/enterprise/setpic.jsp"),
+			//@Result(name = SUCCESS, location = "/admin/enterprise/seedEnterpriseedit.jsp")//种子经营者企业 信息展示
+	})
+	
+	@Override
+	public String execute() {
+		
+
+		HttpSession session=httpServletRequest.getSession(true);
+		
+		user=(User)session.getAttribute("ADMIN_USER");
+		return SUCCESS;
+	}
+	/**
+	 * 初始化增加
+	 * @return
+	 * @throws Exception
+	 */
+	private boolean isUpdate() {
+		
+		if (enterprise == null)
+			return false;
+		if (enterprise.getEnterpriseID() <= 0)
+			return false;
+		return true;
+	}
+	
+	public String initAddOrUpdate() throws Exception {
+		if (isUpdate()){
+			enterprise=enterpriseService.findById(enterprise.getEnterpriseID());
+		}else{
+			enterprise = new Enterprise();
+		}
+		return "form";
+	}//addOrUpdate
+	public String addOrUpdate() throws Exception {
+		enterpriseService.save(enterprise);
+		return this.execute();
+	}
+	/**
+	 * 设置图片
+	 * 
+	 * @return
+	 */
+	public String setpic() throws Exception{
+		enterprise = enterpriseService.findById(enterprise.getEnterpriseID());
+		String attaStr = "";
+		if (null != enterprise.getAttalist() && enterprise.getAttalist().size() > 0) {
+			for (Enterpriseatta atta : enterprise.getAttalist()) {
+				attaStr += "<div id=\"atta" + atta.getAnnexID() + "\" style=\"width:120px; float:right;\"><a href=\"#\" class=\"track\" ><img src=\"" 
+					+ atta.getResizeFile() + "\"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deletepic("
+					+ atta.getAnnexID() + ")'>删除</a><p class=\"Product-Name\">"+ atta.getAnnexName() +"</p>";
+				attaStr += "<br/><p class=\"Product-Name\">附件类型：" + atta.getAnnexType() + "</p>";
+				if ("质量认证".equals(atta.getAnnexType())) {
+					attaStr += "<br/><p class=\"Product-Name\">名称：" + atta.getZhiliang1() + "</p>";
+					attaStr += "<br/><p class=\"Product-Name\">认证编号：" + atta.getZhiliang2() + "</p>";
+					attaStr += "<br/><p class=\"Product-Name\">认证机构：" + atta.getZhiliang3() + "</p>";
+					attaStr += "<br/><p class=\"Product-Name\">认证时间：" + atta.getZhiliang4() + "</p>";
+				}
+				if ("商标注册".equals(atta.getAnnexType())) {
+					attaStr += "<br/><p class=\"Product-Name\">名称：" + atta.getShangbiao1() + "</p>";
+				}
+				if ("荣誉证书".equals(atta.getAnnexType())) {
+					attaStr += "<br/><p class=\"Product-Name\">证书名称：" + atta.getZhengshu1() + "</p>";
+					attaStr += "<br/><p class=\"Product-Name\">获证时间：" + atta.getZhengshu2() + "</p>";
+				}
+				if ("包装信息".equals(atta.getAnnexType())) {
+					attaStr += "<br/><p class=\"Product-Name\">包装名称：" + atta.getBaozhuang1() + "</p>";
+					attaStr += "<br/><p class=\"Product-Name\">包装材料：" + atta.getBaozhuang2() + "</p>";
+				}
+				attaStr += "</div>";
+			}
+		}
+		enterprise.setAttachStr(attaStr);
+		return "form1";
+	}
+	/**
+	 * 保存图片
+	 * */
+	
+	public String savepic() throws Exception{
+		enterprise = enterpriseService.findById(enterprise.getEnterpriseID());
+		String filePath = Constant.EXAPREPORT_STOR_PATH;
+		PrintWriter out = null;
+		String annexType = httpServletRequest.getParameter("annexType");
+		try {
+			out = httpServletResponse.getWriter();
+			File path = new File(filePath);
+			if (!path.exists()) {
+				path.mkdirs();
+			}
+			String prefix=uploadifyFileName.substring(uploadifyFileName.lastIndexOf("."));
+			String filename = UUIDGenerator.getUUID() + prefix;
+			String resizefilename = UUIDGenerator.getUUID() + prefix;
+			String filePath1 = filePath + File.separator + filename;
+			FileUtils.copyFile(uploadify, new File(filePath1));
+			String resizefile = filePath + File.separator + resizefilename;
+			ImageUtil.saveImageAsJpg(filePath1, resizefile, 100, 100);
+			Enterpriseatta atta = new Enterpriseatta();
+			atta.setAnnexType(annexType);
+			if ("质量认证".equals(annexType)) {
+				atta.setZhiliang1(httpServletRequest.getParameter("zhiliang1"));
+				atta.setZhiliang2(httpServletRequest.getParameter("zhiliang2"));
+				atta.setZhiliang3(httpServletRequest.getParameter("zhiliang3"));
+				atta.setZhiliang4(httpServletRequest.getParameter("zhiliang4"));
+			}
+			if ("商标注册".equals(annexType)) {
+				atta.setShangbiao1(httpServletRequest.getParameter("shangbiao1"));
+			}
+			if ("荣誉证书".equals(annexType)) {
+				atta.setZhengshu1(httpServletRequest.getParameter("zhengshu1"));
+				atta.setZhengshu2(httpServletRequest.getParameter("zhengshu2"));
+			}
+			if ("包装信息".equals(annexType)) {
+				atta.setBaozhuang1(httpServletRequest.getParameter("baozhuang1"));
+				atta.setBaozhuang2(httpServletRequest.getParameter("baozhuang2"));
+			}
+			atta.setAnnexName(uploadifyFileName);
+			atta.setAttaFile(Constant.CONVERT_IMG_PATH + httpServletRequest.getContextPath() + "/" + 
+					Constant.UPLOAD_PATH + "/" + filename);
+			atta.setResizeFile(Constant.CONVERT_IMG_PATH + httpServletRequest.getContextPath() + "/" + 
+					Constant.UPLOAD_PATH + "/" + resizefilename);
+			enterprise.addEnterpriseatta(atta);
+			
+			enterpriseService.save(enterprise);
+			String attachStr = "<div id=\"atta" + atta.getAnnexID() + "\" style=\"width:120px; float:right;\"><a href=\"#\" class=\"track\" ><img src=\"" 
+				+ atta.getResizeFile() + "\"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deletepic("
+				+ atta.getAnnexID() + ")'>删除</a><p class=\"Enterprise-Name\">"+ atta.getAnnexName() +"</p>";
+			attachStr += "<br/><p class=\"Product-Name\">附件类型：" + atta.getAnnexType() + "</p>";
+			if ("质量认证".equals(atta.getAnnexType())) {
+				attachStr += "<br/><p class=\"Product-Name\">名称：" + atta.getZhiliang1() + "</p>";
+				attachStr += "<br/><p class=\"Product-Name\">认证编号：" + atta.getZhiliang2() + "</p>";
+				attachStr += "<br/><p class=\"Product-Name\">认证机构：" + atta.getZhiliang3() + "</p>";
+				attachStr += "<br/><p class=\"Product-Name\">认证时间：" + atta.getZhiliang4() + "</p>";
+			}
+			if ("商标注册".equals(atta.getAnnexType())) {
+				attachStr += "<br/><p class=\"Product-Name\">名称：" + atta.getShangbiao1() + "</p>";
+			}
+			if ("荣誉证书".equals(atta.getAnnexType())) {
+				attachStr += "<br/><p class=\"Product-Name\">证书名称：" + atta.getZhengshu1() + "</p>";
+				attachStr += "<br/><p class=\"Product-Name\">获证时间：" + atta.getZhengshu2() + "</p>";
+			}
+			if ("包装信息".equals(atta.getAnnexType())) {
+				attachStr += "<br/><p class=\"Product-Name\">包装名称：" + atta.getBaozhuang1() + "</p>";
+				attachStr += "<br/><p class=\"Product-Name\">包装材料：" + atta.getBaozhuang2() + "</p>";
+			}
+			attachStr += "</div>";
+			out.print(attachStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.flush();
+				out.close();
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	@Resource
+	private InTouRuPinRecordService intourupinrecordService;
+	@Resource
+	private OutTouRuPinRecordService outtourupinrecordService;
+	private List<InTouRuPinRecord> intourupinrecordList=new ArrayList<InTouRuPinRecord>();
+	private List<OutTouRuPinRecord> outtourupinrecordList=new ArrayList<OutTouRuPinRecord>();
+	@Resource
+	private SeedService seedService;
+	private List<Seed> seedList=new ArrayList<Seed>();
+	@Resource
+	private TouRuPinService tourupinService;
+	private List<TouRuPin> tourupinList=new ArrayList<TouRuPin>();
+	
+	public List<TouRuPin> getTourupinList() {
+		return tourupinList;
+	}
+
+	public void setTourupinList(List<TouRuPin> tourupinList) {
+		this.tourupinList = tourupinList;
+	}
+
+	public List<Seed> getSeedList() {
+		return seedList;
+	}
+
+	public void setSeedList(List<Seed> seedList) {
+		this.seedList = seedList;
+	}
+
+	public List<InTouRuPinRecord> getIntourupinrecordList() {
+		return intourupinrecordList;
+	}
+
+	public void setIntourupinrecordList(List<InTouRuPinRecord> intourupinrecordList) {
+		this.intourupinrecordList = intourupinrecordList;
+	}
+
+	public List<OutTouRuPinRecord> getOuttourupinrecordList() {
+		return outtourupinrecordList;
+	}
+
+	public void setOuttourupinrecordList(
+			List<OutTouRuPinRecord> outtourupinrecordList) {
+		this.outtourupinrecordList = outtourupinrecordList;
+	}
+
+	public String getList_pass() throws Exception {
+		////HttpSession session=httpServletRequest.getSession(true);
+		//user=(User)session.getAttribute("ADMIN_USER");
+		Search search = new Search(Enterprise.class);
+		search = this.getSearch(search);
+		search.addFilterEqual("status", "1");
+		
+		/*根据前台条件生成对应属性判断条件*/
+		
+		String enterpriseName=httpServletRequest.getParameter("enterpriseName");
+		if(enterpriseName!=null)
+		{
+			search.addFilterILike("enterpriseName","%"+enterpriseName+"%");
+		}
+		
+		int count = enterpriseService.count(search);
+		List<Enterprise> list = enterpriseService.searchAll(search);
+		List<Map<String, Object>> enterpriseList = new ArrayList<Map<String, Object>>();
+
+		if (null != list) {
+			for (int i = 0; i < list.size(); i++) {
+				Enterprise obj = list.get(i);
+				//种子进货记录
+				Search search1=new Search(SeedIn.class);
+				search1.addFilterEqual("enterprise.enterpriseID",obj.getEnterpriseID());//获得当前企业的“ 进货记录”
+				seedinList=seedinService.searchAll(search1);
+				//归纳汇总
+				Search s=new Search(Seed.class);
+				s.addFilterEqual("enterprise.enterpriseID", obj.getEnterpriseID());
+				seedList=seedService.searchAll(s);
+				String seedname="";
+				Double seedcount=0.0;
+				String seedinTotal="种子进货：";
+				/**---------------------------统计归纳---------------------------------------------------**/
+				for(int k=0;k<seedList.size();k++)
+				{
+					for(int k1=0;k1<seedinList.size();k1++)
+					{
+						if(seedinList.get(k1).getSeed().getSeed_id()==seedList.get(k).getSeed_id())
+						{
+							seedname=seedinList.get(k1).getSeed().getSeed_name();
+							seedcount=seedcount+Double.parseDouble(seedinList.get(k1).getS_count());
+						}
+					}
+					if(seedname!="")
+					{
+						seedinTotal=seedinTotal+seedname+":"+String.valueOf(seedcount)+"万公斤"+",";
+						seedname="";
+						seedcount=0.0;
+					}
+				}
+				
+				
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+				int a=0;
+				//int b=0;
+				long time1=0;
+				//long time2=0;
+				for(SeedIn seedin:seedinList)
+				{
+					for(SeedIn seedIn:seedinList)
+					{
+						Date date=format.parse(seedin.getInput_time());
+						Date date2=format.parse(seedIn.getInput_time());
+						if(date.getTime()-date2.getTime()>=0)
+						{
+							a=a+1;
+							
+						}
+						
+					}
+					if(a==seedinList.size())
+					{
+						time1=format.parse(seedin.getInput_time()).getTime();
+						break;
+					}
+					a=0;
+				}
+				
+				
+				//种子售出记录
+				Search search2=new Search(SeedOut.class);
+				search2.addFilterEqual("user.enterprise.enterpriseID",obj.getEnterpriseID());//获得当前企业的“ 出货记录”
+				seedoutList=seedoutService.searchAll(search2);
+				/**---------------------------统计归纳---------------------------------------------------**/
+				//String seedname="";
+				//Double seedcount=0.0;
+				String seedoutTotal="种子销售：";
+				for(int k=0;k<seedList.size();k++)
+				{
+					for(int k1=0;k1<seedoutList.size();k1++)
+					{
+						if(seedoutList.get(k1).getSeed().getSeed_id()==seedList.get(k).getSeed_id())
+						{
+							seedname=seedoutList.get(k1).getSeed().getSeed_name();
+							seedcount=seedcount+Double.parseDouble(seedoutList.get(k1).getCount());
+						}
+					}
+					if(seedname!="")
+					{
+						seedoutTotal=seedoutTotal+seedname+":"+String.valueOf(seedcount)+"万公斤"+",";
+						seedname="";
+						seedcount=0.0;
+					}
+				}
+				
+				
+				int a1=0;
+				long time2=0;
+				for(SeedOut seedout:seedoutList)
+				{
+					for(SeedOut seedOut:seedoutList)
+					{
+						Date date=format.parse(seedout.getOutput_time());
+						Date date2=format.parse(seedOut.getOutput_time());
+						if(date.getTime()-date2.getTime()>=0)
+						{
+							a1=a1+1;
+							
+						}
+						
+					}
+					if(a1==seedoutList.size())
+					{
+						time2=format.parse(seedout.getOutput_time()).getTime();
+						break;
+					}
+					a1=0;
+				}
+				//投入品进货记录
+				Search search3=new Search(InTouRuPinRecord.class);
+				search3.addFilterEqual("enterpriseID",obj.getEnterpriseID());//获得当前企业的“ 出货记录”
+				intourupinrecordList=intourupinrecordService.searchAll(search3);
+				
+				Search s2=new Search(TouRuPin.class);
+				s2.addFilterEqual("enterpriseID", obj.getEnterpriseID());
+				tourupinList=tourupinService.searchAll(s2);
+				
+				String touruname="";
+				String shuliang="";
+				String intouruTotal="投入品进货：";
+				/**---------------------------统计归纳  投入品进货---------------------------------------------------**/
+				for(int k=0;k<tourupinList.size();k++)
+				{
+					for(int k1=0;k1<intourupinrecordList.size();k1++)
+					{
+						if(intourupinrecordList.get(k1).getTouRuPin().getTourupinID()==tourupinList.get(k).getTourupinID())
+						{
+							touruname=intourupinrecordList.get(k1).getTouRuPin().getName();
+							shuliang=shuliang+intourupinrecordList.get(k1).getCount();
+						}
+					}
+					if(touruname!="")
+					{
+						intouruTotal=intouruTotal+touruname+":"+String.valueOf(shuliang)+"公斤"+",";
+						touruname="";
+						shuliang="";
+					}
+				}
+				
+				
+				int a2=0;
+				long time3=0;
+				for(InTouRuPinRecord intourupinrecord:intourupinrecordList)
+				{
+					for(InTouRuPinRecord intourupinrecord1:intourupinrecordList)
+					{
+						Date date=intourupinrecord.getInput_time();
+						Date date2=intourupinrecord1.getInput_time();;
+						if(date.getTime()-date2.getTime()>=0)
+						{
+							a2=a2+1;
+							
+						}
+						
+					}
+					if(a2==intourupinrecordList.size())
+					{
+						time3=intourupinrecord.getInput_time().getTime();
+						break;
+					}
+					a2=0;
+				}
+				//投入品销售记录
+				Search search4=new Search(OutTouRuPinRecord.class);
+				search4.addFilterEqual("enterpriseID",obj.getEnterpriseID());//获得当前企业的“ 出货记录”
+				outtourupinrecordList=outtourupinrecordService.searchAll(search4);
+				
+				//String touruname="";
+				//int shuliang=0;
+				String outtouruTotal="投入品销售：";
+				/**---------------------------统计归纳  投入品销售---------------------------------------------------**/
+				for(int k=0;k<tourupinList.size();k++)
+				{
+					for(int k1=0;k1<outtourupinrecordList.size();k1++)
+					{
+						if(outtourupinrecordList.get(k1).getTouRuPin().getTourupinID()==tourupinList.get(k).getTourupinID())
+						{
+							touruname=outtourupinrecordList.get(k1).getTouRuPin().getName();
+							shuliang=shuliang+outtourupinrecordList.get(k1).getCount();
+						}
+					}
+					if(touruname!="")
+					{
+						outtouruTotal=outtouruTotal+touruname+":"+String.valueOf(shuliang)+"公斤"+",";
+						touruname="";
+						shuliang="";
+					}
+				}
+				
+				
+				
+				int a3=0;
+				long time4=0;
+				for(OutTouRuPinRecord outtourupinrecord:outtourupinrecordList)
+				{
+					for(OutTouRuPinRecord outtourupinrecord1:outtourupinrecordList)
+					{
+						Date date=outtourupinrecord.getInput_time();
+						Date date2=outtourupinrecord1.getInput_time();;
+						if(date.getTime()-date2.getTime()>=0)
+						{
+							a3=a3+1;
+							
+						}
+						
+					}
+					if(a3==outtourupinrecordList.size())
+					{
+						time4=outtourupinrecord.getInput_time().getTime();
+						break;
+					}
+					a3=0;
+				}
+				
+				Long[] lon=new Long[]{time1,time2,time3,time4};
+				int c=0;
+				long time=0;
+				for(int j=0;j<lon.length;j++)
+				{
+					for(int k=0;k<lon.length;k++)
+					{
+						if(lon[j]-lon[k]>=0)
+						{
+							c=c+1;
+						}
+					}
+					if(c==lon.length)
+					{
+						time=lon[j];
+						break;
+					}
+					c=0;
+				}
+				/**---------------------------------------------------------**/
+				String lastTime="";
+				Date date=new Date();
+				if(time1!=0||time2!=0||time3!=0||time4!=0)
+				{
+					SimpleDateFormat formt=new SimpleDateFormat("yyyy-MM-dd");
+					
+					date.setTime(time);
+					lastTime=formt.format(date);
+				}
+				else
+				{
+						lastTime="无记录";
+						
+				}
+				
+				
+				Map<String, Object> row = new HashMap<String, Object>();
+				
+				String seedinRecord="";
+				String seedoutRecord="";
+				String intourupinrecord="";
+				String outtourupinrecord="";
+				String jinxiaotongji="";//进行统计归纳
+				seedinRecord= "<a href=\"javascript:void(0)\" onclick=\"seedinrecord("+obj.getEnterpriseID()
+					 +")\">种子进货记录</a>";
+				
+				seedoutRecord= "<a href=\"javascript:void(0)\" onclick=\"sendoutrecord("
+					+obj.getEnterpriseID()+ ")\">种子销售记录</a>";
+				intourupinrecord= "<a href=\"javascript:void(0)\" onclick=\"intourupinrecord("
+					+obj.getEnterpriseID()+ ")\">投入品采购</a>";
+				outtourupinrecord= "<a href=\"javascript:void(0)\" onclick=\"outtourupinrecord("
+					+obj.getEnterpriseID()+ ")\">投入品销售</a>";
+				//进销统计归纳
+				jinxiaotongji= "<a href=\"javascript:void(0)\" onclick=\"jinxiaotongji("
+					+obj.getEnterpriseID()+ ")\">进销商品统计归纳</a>";
+				
+				row.put("id", i);
+				row.put("cell",
+						new Object[] { obj.getEnterpriseID(),obj.getEnterpriseName(),lastTime,seedinRecord+ "&nbsp;&nbsp;&nbsp;&nbsp;"
+						+seedoutRecord+"&nbsp;&nbsp;&nbsp;&nbsp;"+intourupinrecord+"&nbsp;&nbsp;&nbsp;&nbsp;"+outtourupinrecord,jinxiaotongji
+					//	seedinTotal+"&nbsp;&nbsp;&nbsp;&nbsp;"+seedoutTotal+"&nbsp;&nbsp;&nbsp;&nbsp;"+intouruTotal+"&nbsp;&nbsp;&nbsp;&nbsp;"
+					//	+outtouruTotal
+					
+						
+				});//其他属性需按页面需要填写
+				enterpriseList.add(row);
+			}
+		}
+
+		JSONObject json = resultTOJson(search, count, enterpriseList);
+
+		sendMessages(httpServletResponse, json.toString());
+
+		return null;
+	}
+	
+	//进销产品统计归纳
+	public String jinxiaoList_pass() throws IOException{
+		httpServletResponse.setContentType("application/json;");
+		httpServletResponse.setCharacterEncoding("UTF-8");
+		PrintWriter out = httpServletResponse.getWriter();
+		Map<String, Object> result = new LinkedHashMap<String, Object>();
+		try {
+			/**--------------jinxiao----------------------------**/
+			
+			long enterpriseID=Long.parseLong(httpServletRequest.getParameter("enterpriseID"));
+					//种子进货记录
+					Search search1=new Search(SeedIn.class);
+					search1.addFilterEqual("enterprise.enterpriseID",enterpriseID);//获得当前企业的“ 进货记录”
+					seedinList=seedinService.searchAll(search1);
+					//归纳汇总
+					Search s=new Search(Seed.class);
+					s.addFilterEqual("enterprise.enterpriseID", enterpriseID);
+					seedList=seedService.searchAll(s);
+					String seedname="";
+					Double seedcount=0.0;
+					String seedinTotal="";
+					/**---------------------------统计归纳---------------------------------------------------**/
+					for(int k=0;k<seedList.size();k++)
+					{
+						for(int k1=0;k1<seedinList.size();k1++)
+						{
+							if(seedinList.get(k1).getSeed().getSeed_id()==seedList.get(k).getSeed_id())
+							{
+								seedname=seedinList.get(k1).getSeed().getSeed_name();
+								seedcount=seedcount+Double.parseDouble(seedinList.get(k1).getS_count());
+							}
+						}
+						if(seedname!="")
+						{
+							seedinTotal=seedinTotal+seedname+":"+String.valueOf(seedcount)+"万公斤"+",";
+							seedname="";
+							seedcount=0.0;
+						}
+					}
+					if("".equals(seedinTotal))
+					{
+						seedinTotal="暂时无记录";
+					}
+				
+					
+					//种子售出记录String seedoutTotal="种子销售：";
+					Search search2=new Search(SeedOut.class);
+					search2.addFilterEqual("user.enterprise.enterpriseID",enterpriseID);//获得当前企业的“ 出货记录”
+					seedoutList=seedoutService.searchAll(search2);
+					/**---------------------------统计归纳---------------------------------------------------**/
+					//String seedname="";
+					//Double seedcount=0.0;
+					String seedoutTotal="";
+					for(int k=0;k<seedList.size();k++)
+					{
+						for(int k1=0;k1<seedoutList.size();k1++)
+						{
+							if(seedoutList.get(k1).getSeed().getSeed_id()==seedList.get(k).getSeed_id())
+							{
+								seedname=seedoutList.get(k1).getSeed().getSeed_name();
+								seedcount=seedcount+Double.parseDouble(seedoutList.get(k1).getCount());
+							}
+						}
+						if(seedname!="")
+						{
+							seedoutTotal=seedoutTotal+seedname+":"+String.valueOf(seedcount)+"万公斤"+",";
+							seedname="";
+							seedcount=0.0;
+						}
+					}
+					if("".equals(seedoutTotal))
+					{
+						seedoutTotal="暂时无记录";
+					}
+				
+					//投入品进货记录String intouruTotal="投入品进货：";
+					Search search3=new Search(InTouRuPinRecord.class);
+					search3.addFilterEqual("enterpriseID",enterpriseID);//获得当前企业的“ 出货记录”
+					intourupinrecordList=intourupinrecordService.searchAll(search3);
+					
+					Search s2=new Search(TouRuPin.class);
+					s2.addFilterEqual("enterpriseID", enterpriseID);
+					tourupinList=tourupinService.searchAll(s2);
+					
+					String touruname="";
+					String shuliang="";
+					String intouruTotal="";
+					/**---------------------------统计归纳  投入品进货---------------------------------------------------**/
+					for(int k=0;k<tourupinList.size();k++)
+					{
+						for(int k1=0;k1<intourupinrecordList.size();k1++)
+						{
+							if(intourupinrecordList.get(k1).getTouRuPin().getTourupinID()==tourupinList.get(k).getTourupinID())
+							{
+								touruname=intourupinrecordList.get(k1).getTouRuPin().getName();
+								shuliang=shuliang+intourupinrecordList.get(k1).getCount();
+							}
+						}
+						if(touruname!="")
+						{
+							intouruTotal=intouruTotal+touruname+":"+String.valueOf(shuliang)+"公斤"+",";
+							touruname="";
+							shuliang="";
+						}
+					}
+					if("".equals(intouruTotal))
+					{
+						intouruTotal="暂时无记录";
+					}
+					
+					//投入品销售记录String outtouruTotal="投入品销售：";
+					Search search4=new Search(OutTouRuPinRecord.class);
+					search4.addFilterEqual("enterpriseID",enterpriseID);//获得当前企业的“ 出货记录”
+					outtourupinrecordList=outtourupinrecordService.searchAll(search4);
+					
+					//String touruname="";
+					//int shuliang=0;
+					String outtouruTotal="";
+					/**---------------------------统计归纳  投入品销售---------------------------------------------------**/
+					for(int k=0;k<tourupinList.size();k++)
+					{
+						for(int k1=0;k1<outtourupinrecordList.size();k1++)
+						{
+							if(outtourupinrecordList.get(k1).getTouRuPin().getTourupinID()==tourupinList.get(k).getTourupinID())
+							{
+								touruname=outtourupinrecordList.get(k1).getTouRuPin().getName();
+								shuliang+=outtourupinrecordList.get(k1).getCount();
+							}
+						}
+						if(touruname!="")
+						{
+							outtouruTotal=outtouruTotal+touruname+":"+String.valueOf(shuliang)+"公斤"+",";
+							touruname="";
+							shuliang="";
+						}
+					}
+					if("".equals(outtouruTotal))
+					{
+						outtouruTotal="暂时无记录";
+					}
+				//<td>种子销售</td><td>投入品采购</td><td>投入品销售</td><tr>		
+			/**-------------------------------------------------------**/
+			/*String msg = "<table cellspacing='0' cellpadding='0' border='0' width='100%' class='tab2'>"
+					+ "<tr><td>种子采购:</td></tr></br><tr><td>"+seedinTotal+"</td></tr>" +
+							"<tr><td>种子销售:</td></tr><tr><td>"+seedoutTotal+"</td></tr>" +
+									"<tr><td>投入品采购:</td></tr><tr><td>"+intouruTotal+"</td></tr>" +
+											"<tr><td>投入品销售:</td></tr><tr><td>"+outtouruTotal+"</td></tr></table>";*/
+					String msg = "<table cellspacing='0' cellpadding='0' border='0' width='100%' class='tab2'>"
+						+ "<tr><td>种子采购:</td><td>种子销售:</td></tr></br><tr><td>"+seedinTotal+"</td><td>"+seedoutTotal+"</td></tr>" +
+										"<tr><td>投入品采购:</td><td>投入品销售:</td></tr><tr><td>"+intouruTotal+"</td><td>"+outtouruTotal+"</td></tr>" +
+												"</table>";
+			result.put("stat", "1");
+			result.put("msg", msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		JSONObject json = new JSONObject(result);
+		out.print(json.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	
+	/**
+	 * 删除图片
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String deletepic() throws Exception {
+		String msg = "";
+		int id = Integer.parseInt(httpServletRequest.getParameter("attaID"));
+		Enterpriseatta atta = enterpriseattaService.findById(id);
+		File f = new File(atta.getAttaFile());
+		f.delete();
+		enterpriseattaService.removeById(id);
+		msg = "ok";
+		sendMessages(httpServletResponse, msg);
+		return null;
+	}
+	
+	/**-------------函数功能：获取种子经营者的企业基本信息------------------**/
+	public String getUserEnterprise()throws Exception
+	{
+		HttpSession session=httpServletRequest.getSession(true);
+		
+		user=(User)session.getAttribute("ADMIN_USER");
+		
+		return "seedEnterprise";
+		
+	}
+	
+	
+}

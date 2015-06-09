@@ -1,0 +1,187 @@
+package com.ncs.gsyt.modules.model;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+
+/**
+ * 种植类生产记录档案
+ * 
+ * 质量检测   对应的实体类
+ * **/
+
+@Entity
+@Table(name = "T_ZHILIANG")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class ZhiLiang implements Serializable{
+
+		
+			private static final long serialVersionUID = 1L;
+
+			@Id
+			@GeneratedValue(strategy=GenerationType.AUTO)
+			private long zhiliangID;//ID
+				
+			@Column(length=50)
+			private Date input_time;//日期
+			
+			@Column(length=50)
+			private String name;//产品名称
+			
+			@Column(length=50)
+			private String code;//田块编号或批号
+			
+			@Column(length=50)
+			private String jianCeMethod;//检测方法
+			
+			@Column(length=50)
+			private String jianCeJGuo;//检测结果
+			
+			@Column(length=50)
+			private String jianCeName;//检测单位及人员
+			
+			@Column(length=50)
+			private String content;//备注
+			
+
+			@Column(length=50)
+			private String piCi;//批次，用于保存溯源里的“批次”概念
+			
+			@Transient
+			private long idss;
+			
+			@ManyToOne
+			@JoinColumn(name = "baseID", referencedColumnName = "baseID")
+			private ShengChanBase shengChanBase; //所属的基地
+			
+			public String getPiCi() {
+				return piCi;
+			}
+
+			public void setPiCi(String piCi) {
+				this.piCi = piCi;
+			}
+
+			public long getIdss() {
+				return idss;
+			}
+
+			public void setIdss(long idss) {
+				this.idss = idss;
+			}
+			private long enterpriseID;
+			
+			@Column(length=50)
+			private String enterpriseName;
+			
+			
+
+			public long getEnterpriseID() {
+				return enterpriseID;
+			}
+
+			public void setEnterpriseID(long enterpriseID) {
+				this.enterpriseID = enterpriseID;
+			}
+
+			public String getEnterpriseName() {
+				return enterpriseName;
+			}
+
+			public void setEnterpriseName(String enterpriseName) {
+				this.enterpriseName = enterpriseName;
+			}
+
+			public long getZhiliangID() {
+				return zhiliangID;
+			}
+
+			public void setZhiliangID(long zhiliangID) {
+				this.zhiliangID = zhiliangID;
+			}
+
+			
+			public Date getInput_time() {
+				return input_time;
+			}
+
+			public void setInput_time(Date inputTime) {
+				input_time = inputTime;
+			}
+
+			public String getName() {
+				return name;
+			}
+
+			public void setName(String name) {
+				this.name = name;
+			}
+
+			public String getJianCeMethod() {
+				return jianCeMethod;
+			}
+
+			public void setJianCeMethod(String jianCeMethod) {
+				this.jianCeMethod = jianCeMethod;
+			}
+
+			public String getJianCeJGuo() {
+				return jianCeJGuo;
+			}
+
+			public void setJianCeJGuo(String jianCeJGuo) {
+				this.jianCeJGuo = jianCeJGuo;
+			}
+
+			public String getJianCeName() {
+				return jianCeName;
+			}
+
+			public void setJianCeName(String jianCeName) {
+				this.jianCeName = jianCeName;
+			}
+
+			public String getContent() {
+				return content;
+			}
+
+			public void setContent(String content) {
+				this.content = content;
+			}
+
+			public String getCode() {
+				return code;
+			}
+
+			public void setCode(String code) {
+				this.code = code;
+			}
+
+			public ShengChanBase getShengChanBase() {
+				return shengChanBase;
+			}
+
+			public void setShengChanBase(ShengChanBase shengChanBase) {
+				this.shengChanBase = shengChanBase;
+			}
+			
+}

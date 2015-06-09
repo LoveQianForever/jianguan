@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="jianguan"
+  id="myeclipse.1418473637140"
+  context-root="/jianguan"
+  j2ee-spec="6.0"
+  archive="jianguan.war">
+  <attributes>
+    <attribute name="webrootdir" value="web" />
+  </attributes>
+</project-module>
+

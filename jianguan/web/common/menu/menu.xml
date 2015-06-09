@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 编辑使用 XMLSpy v2006 U (http://www.altova.com) 由 any (any) -->
+<Param caption="ver:WebModule" imgsrc="" consrc="" action="" alt="123" purview="0">
+	<!-- 系统管理员 -->
+	<cell caption="基础设置" imgsrc="" consrc="" action="" alt="" purview="3">
+		<cell caption="区域设置" imgsrc="../common/menu/images/dataManage.gif" consrc="" action="go('../area/areatree.jsp',0)" alt="区域设置" purview="3"/>
+		<cell caption="用户管理" imgsrc="../common/menu/images/dagl.gif" consrc="" action="go('../user/userlist.jsp',0)" alt="用户管理" purview="3"/>
+		<cell caption="日志查询" imgsrc="../common/menu/images/xqjd.gif" consrc="" action="go('../log/loglist.jsp',0)" alt="日志查询" purview="3"/>
+	</cell>
+	<cell caption="统计分析" imgsrc="" consrc="" action="" alt="" purview="3">
+	</cell>
+</Param>

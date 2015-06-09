@@ -1,0 +1,75 @@
+ <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%@ include file="/common/taglibs.jsp"%>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>用户注册</title>
+    <script src="${ctx}/js/jquery-1.6.2.min.js" language="javascript" type="text/javascript"></script>
+    <script src="${ctx}/common/validator/formValidator-4.0.1.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="${ctx}/common/validator/formValidatorRegex.js" type="text/javascript" charset="UTF-8"></script>
+    
+    <script  type="text/javascript" src="${ctx}/common/My97DatePicker/WdatePicker.js"></script>
+    <link href="${ctx}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="${ctx}/css/layout.css" rel="stylesheet" type="text/css" />
+	<link href="${ctx}/css/forms.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  	<div>
+ <div class="option">
+	<ul class="clearfix">
+	<li id="one1" class="hover"><span><img src="${ctx}/image/icon/icon01.gif" />用户注册</span></li>
+	</ul>
+</div>
+<div style="display: block; padding: 10px;" id="con_one_2">
+<div class="boxBack">
+    <form method="post" id="form1" action="${ctx}/mobile/regist!reg.do">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%" class="tab2">
+    <tbody>
+       <colgroup>
+    		<col width="20%"/>
+    		<col width="80%"/>
+    	</colgroup>
+        <tr>
+            <th>用户姓名：</th>
+            <td>
+             <input type="hidden" name="id" id="id" value="${user.id}" />
+            <input type="text" name="username" id="username" onfocus="this.className='inputClick'" value=""  class="input" class="inputText" style="width:120px;" />
+            <span id="userNameTip"></span></td>
+        </tr>
+        <tr>
+            <th>登陆名：</th>
+            <td>
+            <input type="text" name="usercode" id="usercode" onfocus="this.className='inputClick'"  value="" class="input" class="inputText" style="width:120px;" />
+            <span id="userCodeTip"></span></td>
+        </tr>
+        <tr>
+            <th>用户密码：</th>
+            <td>
+            <input type="password" name="password"	id="password" onfocus="this.className='inputClick'" value="" class="inputText" style="width: 120px" />
+            <span id="userPasswordTip"></span></td>
+        </tr>
+    </tbody>
+</table>
+<div class="inputSubmit">
+	<input type="button" class="buttonStyle" id="doSave" value="提交"/>&nbsp;&nbsp;
+</div>
+</div>
+<form>
+</div>
+</div>
+  <script type="text/javascript">
+	 $(document).ready(function() { 	
+	  	$.formValidator.initConfig({ debug:false,submitButtonID:"doSave",
+	        onSuccess:function(){submitForm1();},
+	        onError:function(){alert("具体错误，请看网页上的提示")}
+	    });
+	    $("#username").formValidator({onShow:"请输入姓名",onFocus:"姓名长度在5个字之内",onCorrect:"输入正确"}).inputValidator({min:1,max:10,empty:{leftEmpty:false,rightEmpty:false,emptyError:"姓名两边不能有空符号"},onError:"姓名长度在5个字之内"});
+	    $("#usercode").formValidator({onShow:"请输入登陆名",onFocus:"登陆名长度在20个字之内",onCorrect:"输入正确"}).inputValidator({min:1,max:20,empty:{leftEmpty:false,rightEmpty:false,emptyError:"登陆名两边不能有空符号"},onError:"登陆名长度在20个字之内"}).regexValidator({regExp:"username",dataType:"enum",onError:"登录名只能由数字、26个英文字母或者下划线组成"});
+	    $("#password").formValidator({onShow:"请输入密码",onFocus:"至少1个长度",onCorrect:"密码合法"}).inputValidator({min:1,max:15,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码长度在15个字之内"});	    
+	  });
+	  function submitForm1() {
+	  	$("#form1").submit();
+	  }
+  </script>
+  </body>
+</html>
